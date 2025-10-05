@@ -1,0 +1,58 @@
+/* Styles for the container of the editable table */
+.edit-table-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+/* Style for the input fields within the table */
+.edit-table-container input[type="number"] {
+    width: 80px;
+    padding: 8px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.edit-table-container input[type="number"]:focus {
+    outline: none;
+    border-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.3);
+}
+
+/* Container for the save button */
+.action-buttons {
+    text-align: right;
+    margin-top: 20px;
+}
+
+/* Save Changes button style */
+.save-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.save-btn:hover {
+    background-color: #218838;
+}
+
+/* Style for the success message */
+.success-message {
+    color: #28a745;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 15px;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+

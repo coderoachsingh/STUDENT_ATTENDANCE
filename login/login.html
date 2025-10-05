@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - KIIT Student Accounts</title>
+    <!-- Google Fonts for Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Make sure this path is correct -->
+    <link rel="stylesheet" href="style1.css"> 
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <div class="logo">
+                ATTENDANCE
+            </div>
+            <h1 class="heading">Sign in</h1>
+            <p class="subheading">to continue to Student Portal</p>
+
+            <form id="login-form">
+                <div class="input-group">
+                    <input type="text" id="student-id" required>
+                    <label for="student-id">Student ID</label>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" required>
+                    <label for="password">Enter your password</label>
+                </div>
+
+                <p class="error-message" id="error-message"></p>
+                
+                <div class="button-container">
+                    <a href="#" class="forgot-link">Forgot Password?</a>
+                    <button type="submit" class="next-btn">Next</button>
+                </div>
+            </form>
+             <div class="dummy-info">
+                <p>Use ID: <strong>21051234</strong> & Password: <strong>password123</strong></p>
+            </div>
+        </div>
+        <footer class="footer">
+            <a href="#">Help</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+        </footer>
+    </div>
+
+    <!-- This script tag now links to your external JS file, building the connection -->
+    <script src="login.js"></script>
+</body>
+</html>
+

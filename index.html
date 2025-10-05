@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">STUDENT DETAILS</div>
+            <div class="university-name">Attendance Portal</div>
+        </div>
+        <div class="user-info">
+            <span class="welcome-text">Welcome, John Doe</span>
+            <button class="logout-btn">Logout</button>
+        </div>
+    </header>
+    <div class="portal-container">
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a class="nav-link active" href="index.html"><i class="fas fa-tachometer-alt fa-fw"></i> Dashboard</a></li>
+                    <li><a class="nav-link" href="profile.html"><i class="fas fa-user-circle fa-fw"></i> My Profile</a></li>
+                    <li><a class="nav-link" href="attendance.html"><i class="fas fa-calendar-check fa-fw"></i> Attendance</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <div id="dashboard-content">
+                <div class="content-header">
+                    <h1>Dashboard</h1>
+                    <p class="semester-info">Overview of your academic progress for Autumn Semester 2025-26</p>
+                </div>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-chart-pie"></i></div>
+                        <div class="card-info">
+                            <p>Overall Attendance</p>
+                            <h2 id="overall-attendance-stat">--%</h2>
+                        </div>
+                    </div>
+                     <div class="card card-danger">
+                        <div class="card-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="card-info">
+                            <p>Subjects Below 75%</p>
+                            <h2 id="low-attendance-stat">--</h2>
+                        </div>
+                    </div>
+                     <div class="card">
+                        <div class="card-icon"><i class="fas fa-book-open"></i></div>
+                        <div class="card-info">
+                            <p>Total Subjects</p>
+                            <h2 id="total-subjects-stat">--</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container" style="margin-top: 40px; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08);">
+                    <h3>Subject-wise Attendance Overview</h3>
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+

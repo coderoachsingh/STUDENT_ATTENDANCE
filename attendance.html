@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Details - Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">STUDENT DETAILS</div>
+            <div class="university-name">Attendance Portal</div>
+        </div>
+        <div class="user-info">
+            <span class="welcome-text">Welcome, John Doe</span>
+            <button class="logout-btn">Logout</button>
+        </div>
+    </header>
+    <div class="portal-container">
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a class="nav-link" href="index.html"><i class="fas fa-tachometer-alt fa-fw"></i> Dashboard</a></li>
+                    <li><a class="nav-link" href="profile.html"><i class="fas fa-user-circle fa-fw"></i> My Profile</a></li>
+                    <li><a class="nav-link active" href="attendance.html"><i class="fas fa-calendar-check fa-fw"></i> Attendance</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <div id="attendance-content">
+                <div class="content-header">
+                    <h1>Semester Attendance Details</h1>
+                    <p class="semester-info">Showing data for Autumn Semester 2025-26</p>
+                </div>
+                <div class="attendance-table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sl. No.</th>
+                                <th>Subject Code</th>
+                                <th>Subject Name</th>
+                                <th>Total Classes</th>
+                                <th>Attended</th>
+                                <th style="text-align: center;">Percentage (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendance-data-body">
+                            <!-- Data will be inserted by script.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+

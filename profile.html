@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile - Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">STUDENT DETAILS</div>
+            <div class="university-name">Attendance Portal</div>
+        </div>
+        <div class="user-info">
+            <span class="welcome-text">Welcome, John Doe</span>
+            <button class="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <div class="portal-container">
+        
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a class="nav-link" href="index.html"><i class="fas fa-tachometer-alt fa-fw"></i> Dashboard</a></li>
+                    <li><a class="nav-link active" href="profile.html"><i class="fas fa-user-circle fa-fw"></i> My Profile</a></li>
+                    <li><a class="nav-link" href="attendance.html"><i class="fas fa-calendar-check fa-fw"></i> Attendance</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div id="profile-content">
+                 <div class="profile-new-container">
+                    <div class="profile-card-new">
+                        <div class="profile-banner"></div>
+                        <div class="profile-header-new">
+                            <div class="profile-picture">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="profile-name-info">
+                                <h2>John Doe</h2>
+                                <p>Student ID: 21051234</p>
+                            </div>
+                            <button class="edit-profile-btn">Edit Profile</button>
+                        </div>
+                        <div class="profile-body-new">
+                            <div class="profile-section">
+                                <h3>Academic Information</h3>
+                                <div class="details-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Branch</span>
+                                        <span class="detail-value">B.Tech, Computer Science Engineering (CSE)</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Current Semester</span>
+                                        <span class="detail-value">3rd Semester</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">University Email</span>
+                                        <span class="detail-value">john.doe@university.edu</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile-section">
+                                <h3>Personal Information</h3>
+                                <div class="details-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Age</span>
+                                        <span class="detail-value">20 Years</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Date of Birth</span>
+                                        <span class="detail-value">January 15, 2005</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Contact Number</span>
+                                        <span class="detail-value">+91 12345 67890</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
