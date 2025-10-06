@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Attendance Cloud</title>
+  <link rel="stylesheet" href="style1.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="branding-panel">
+      <div class="branding-content">
+        <svg class="logo" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 0C8.954 0 0 8.954 0 20s8.954 20 20 20 20-8.954 20-20S31.046 0 20 0zm0 38C10.075 38 2 29.925 2 20S10.075 2 20 2s18 8.075 18 18-8.075 18-18 18z" fill="#fff"/>
+            <path d="M26.5 14C26.5 13.1716 25.8284 12.5 25 12.5H15C14.1716 12.5 13.5 13.1716 13.5 14C13.5 14.8284 14.1716 15.5 15 15.5H23C23.8284 15.5 24.5 16.1716 24.5 17C24.5 17.8284 23.8284 18.5 23 18.5H15.5C14.6716 18.5 14 19.1716 14 20C14 20.8284 14.6716 21.5 15.5 21.5H22C22.8284 21.5 23.5 22.1716 23.5 23C23.5 23.8284 22.8284 24.5 22 24.5H13.5C12.6716 24.5 12 25.1716 12 26C12 26.8284 12.6716 27.5 13.5 27.5H25C25.8284 27.5 26.5 26.8284 26.5 26C26.5 25.1716 25.8284 24.5 25 24.5H17C16.1716 24.5 15.5 23.8284 15.5 23C15.5 22.1716 16.1716 21.5 17 21.5H24.5C25.3284 21.5 26 20.8284 26 20C26 19.1716 25.3284 18.5 24.5 18.5H17C16.1716 18.5 15.5 17.8284 15.5 17C15.5 16.1716 16.1716 15.5 17 15.5H26.5C27.3284 15.5 28 14.8284 28 14C28 13.1716 27.3284 12.5 26.5 12.5Z" fill="#fff"/>
+        </svg>
+        <h1>Attendance Cloud</h1>
+        <p>Streamlining attendance tracking for the modern classroom.</p>
+      </div>
+    </div>
+
+    <div class="form-panel">
+      <h2>Log in to Attendance Cloud</h2>
+
+      <form id="loginForm" class="login-form">
+        <div class="form-group">
+          <label for="rollNo">Roll Number</label>
+          <input type="text" id="rollNo" placeholder="e.g., S001" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="e.g., arman.singh@example.com" required>
+        </div>
+
+        <div id="loginError" class="error-message hidden">
+          Invalid credentials. Please check the roll number and email.
+        </div>
+
+        <button type="submit" class="btn-primary">Log in</button>
+      </form>
+
+      <div class="demo-section">
+        <h3>Demo Credentials</h3>
+        <ul>
+          <li><strong>S001</strong> &rarr; arman.singh@example.com</li>
+          <li><strong>S002</strong> &rarr; priya.das@example.com</li>
+          <li><strong>S003</strong> &rarr; ravi.kumar@example.com</li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <a href="#">Forgot password?</a>
+        <a href="#">Contact Support</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>

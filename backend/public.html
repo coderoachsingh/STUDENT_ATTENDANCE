@@ -1,48 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attendance Cloud</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendance Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <h1>📚 Attendance Cloud System</h1>
+<body class="public-page">
 
   <div class="container">
-    <label for="subject">Select Subject:</label>
-    <select id="subject">
-      <option value="Math">Math</option>
-      <option value="Science">Science</option>
-      <option value="English">English</option>
-      <option value="Computer">Computer</option>
-    </select>
+    <h1 class="title">Attendance Dashboard</h1>
 
-    <label for="date">Select Date:</label>
-    <input type="date" id="date" min="2025-01-01" max="2025-07-31">
-
-    <div id="students">
-      <h3>Mark Attendance</h3>
-      <div class="student">
-        <span>Arman Singh</span>
-        <button class="present">Present</button>
-        <button class="absent">Absent</button>
-      </div>
-      <div class="student">
-        <span>Rahul Sharma</span>
-        <button class="present">Present</button>
-        <button class="absent">Absent</button>
-      </div>
-      <div class="student">
-        <span>Priya Das</span>
-        <button class="present">Present</button>
-        <button class="absent">Absent</button>
-      </div>
+    <!-- Subject Selection -->
+    <div class="form-section">
+      <label for="subject">Select Subject:</label>
+      <select id="subject" class="input">
+        <option value="">--Select Subject--</option>
+        <option value="Math">Math</option>
+        <option value="Physics">Physics</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Biology">Biology</option>
+        <option value="Computer Science">Computer Science</option>
+      </select>
     </div>
 
-    <button id="save">Save Attendance</button>
+    <!-- Date Selection -->
+    <div class="form-section">
+      <label for="date">Select Date:</label>
+      <input type="date" id="date" class="input" min="2025-01-01" max="2025-07-31" />
+    </div>
+
+    <button id="loadStudents" class="btn-primary">Load Students</button>
+
+    <!-- Table -->
+    <div id="studentTableContainer" class="table-container hidden">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Roll No</th>
+            <th>Name</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="studentTable"></tbody>
+      </table>
+
+      <button id="submitAttendance" class="btn-primary">Submit Attendance</button>
+    </div>
   </div>
 
-  <script src="server.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

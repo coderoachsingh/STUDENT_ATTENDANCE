@@ -1,43 +1,119 @@
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(120deg, #74ebd5, #acb6e5);
-  text-align: center;
+/* ===== General Reset ===== */
+* {
   margin: 0;
-  padding: 20px;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
+/* ===== Page Background ===== */
+body.public-page {
+  background: linear-gradient(135deg, #2a2a72, #009ffd);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== Main Container ===== */
 .container {
   background: white;
   border-radius: 15px;
-  padding: 30px;
-  display: inline-block;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  padding: 40px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.6s ease-in-out;
 }
 
-.student {
-  margin: 10px 0;
+/* ===== Heading ===== */
+.title {
+  text-align: center;
+  font-size: 28px;
+  color: #2a2a72;
+  margin-bottom: 25px;
 }
 
-button {
-  margin: 5px;
-  padding: 8px 12px;
-  border: none;
+/* ===== Form Sections ===== */
+.form-section {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.input, select {
+  width: 100%;
+  padding: 10px;
+  border: 1.5px solid #ccc;
   border-radius: 8px;
+  font-size: 16px;
+  transition: 0.3s ease;
+}
+
+.input:focus, select:focus {
+  border-color: #009ffd;
+  box-shadow: 0 0 6px rgba(0, 159, 253, 0.5);
+  outline: none;
+}
+
+/* ===== Buttons ===== */
+.btn-primary {
+  background-color: #009ffd;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 16px;
   cursor: pointer;
+  transition: 0.3s;
+  display: block;
+  width: 100%;
+  margin-top: 10px;
 }
 
-.present {
-  background-color: #4caf50;
+.btn-primary:hover {
+  background-color: #0073e6;
+}
+
+/* ===== Table ===== */
+.table-container {
+  margin-top: 25px;
+  overflow-x: auto;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.styled-table th, .styled-table td {
+  text-align: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.styled-table th {
+  background-color: #009ffd;
   color: white;
 }
 
-.absent {
-  background-color: #f44336;
-  color: white;
+.styled-table tr:hover {
+  background-color: #f1f1f1;
 }
 
-#save {
-  background-color: #2196f3;
-  color: white;
-  margin-top: 15px;
+.hidden {
+  display: none;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
