@@ -3,7 +3,7 @@ const { ddbDocClient } = require('./ddbClient');
 const { QueryCommand } = require('@aws-sdk/lib-dynamodb');
 
 async function queryAttendance(subject, date) {
-  const key = `${subject}#${date}`; // e.g. "Math#2025-03-12"
+  const key = `${subject}#${date}`; // e.g. "Data Structures#2025-03-12"
   const params = {
     TableName: 'AttendanceRecords',
     KeyConditionExpression: 'subject_date = :sd',
@@ -13,4 +13,4 @@ async function queryAttendance(subject, date) {
   console.log(`Attendance for ${key}:`, data.Items || []);
 }
 
-queryAttendance('Math','2025-03-12').catch(console.error);
+queryAttendance('Data Structures','2025-03-12').catch(console.error);

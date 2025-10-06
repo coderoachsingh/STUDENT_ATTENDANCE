@@ -9,10 +9,11 @@
 /* ===== Page Background ===== */
 body.public-page {
   background: linear-gradient(135deg, #2a2a72, #009ffd);
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px 0;
 }
 
 /* ===== Main Container ===== */

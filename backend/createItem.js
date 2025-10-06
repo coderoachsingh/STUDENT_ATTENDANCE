@@ -14,7 +14,7 @@ async function putStudent(student) {
 const student = {
   rollNo: 'S010',
   name: 'Test Student',
-  subject: 'Mathematics',
+  subject: 'Data Structures',
   semester: 'Sem 1',
   email: 'test.student@example.com'
 };

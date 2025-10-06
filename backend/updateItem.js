@@ -32,5 +32,5 @@ async function updateAttendanceStatus(subject, date, rollNo, status) {
 
 // Call either function:
 updateStudentEmail('S001','arman.new@example.com').catch(console.error);
-// updateAttendanceStatus('Math','2025-03-12','S001','Absent').catch(console.error);
+// updateAttendanceStatus('Data Structures','2025-03-12','S001','Absent').catch(console.error);
 
