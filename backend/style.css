@@ -1,0 +1,43 @@
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(120deg, #74ebd5, #acb6e5);
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  display: inline-block;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+.student {
+  margin: 10px 0;
+}
+
+button {
+  margin: 5px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.present {
+  background-color: #4caf50;
+  color: white;
+}
+
+.absent {
+  background-color: #f44336;
+  color: white;
+}
+
+#save {
+  background-color: #2196f3;
+  color: white;
+  margin-top: 15px;
+}

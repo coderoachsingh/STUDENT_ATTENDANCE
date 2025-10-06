@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance Cloud</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>📚 Attendance Cloud System</h1>
+
+  <div class="container">
+    <label for="subject">Select Subject:</label>
+    <select id="subject">
+      <option value="Math">Math</option>
+      <option value="Science">Science</option>
+      <option value="English">English</option>
+      <option value="Computer">Computer</option>
+    </select>
+
+    <label for="date">Select Date:</label>
+    <input type="date" id="date" min="2025-01-01" max="2025-07-31">
+
+    <div id="students">
+      <h3>Mark Attendance</h3>
+      <div class="student">
+        <span>Arman Singh</span>
+        <button class="present">Present</button>
+        <button class="absent">Absent</button>
+      </div>
+      <div class="student">
+        <span>Rahul Sharma</span>
+        <button class="present">Present</button>
+        <button class="absent">Absent</button>
+      </div>
+      <div class="student">
+        <span>Priya Das</span>
+        <button class="present">Present</button>
+        <button class="absent">Absent</button>
+      </div>
+    </div>
+
+    <button id="save">Save Attendance</button>
+  </div>
+
+  <script src="server.js"></script>
+</body>
+</html>

@@ -10,9 +10,24 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.902.0",
+    "@aws-sdk/lib-dynamodb": "^3.902.0",
+    "aws-sdk": "^2.1692.0",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "mongodb": "^6.20.0",
     "moongose": "^1.0.0",
     "node": "^24.9.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coderoachsingh/Attendance_CLOUD.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/coderoachsingh/Attendance_CLOUD/issues"
+  },
+  "homepage": "https://github.com/coderoachsingh/Attendance_CLOUD#readme"
 }
