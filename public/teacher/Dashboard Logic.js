@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const statusSelect = row.querySelector('.status-select');
         if (statusSelect) {
             // ✅ FINAL FIX IS HERE: Convert the rollNo from a string to a number
-            const rollNo = parseInt(statusSelect.dataset.rollno, 10);
+            const rollNo = statusSelect.dataset.rollno;
             const status = statusSelect.value;
             const name = row.cells[1].textContent;
             attendanceData.push({ rollNo, name, status });

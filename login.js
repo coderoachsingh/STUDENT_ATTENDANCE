@@ -1,36 +1,42 @@
 // login.js
-
-const demoUsers = [
-  { rollNo: "S001", email: "arman.singh@example.com", name: "Arman Singh" },
-  { rollNo: "S002", email: "priya.das@example.com", name: "Priya Das" },
-  { rollNo: "S003", email: "ravi.kumar@example.com", name: "Ravi Kumar" },
-  { rollNo: "S004", email: "simran.kaur@example.com", name: "Simran Kaur" },
-  { rollNo: "S005", email: "rahul.sharma@example.com", name: "Rahul Sharma" },
-];
-
-document.getElementById("loginForm").addEventListener("submit", (e) => {
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const rollNo = document.getElementById("rollNo").value.trim().toUpperCase();
   const email = document.getElementById("email").value.trim().toLowerCase();
   const errorBox = document.getElementById("loginError");
-
-  // Hide error message on new submission attempt
-  if (!errorBox.classList.contains("hidden")) {
-    errorBox.classList.add("hidden");
-  }
+  const loginButton = e.target.querySelector('button[type="submit"]');
   
-  const user = demoUsers.find(
-    (u) => u.rollNo === rollNo && u.email === email
-  );
+  errorBox.classList.add("hidden");
+  loginButton.disabled = true;
+  loginButton.textContent = 'Logging in...';
 
-  if (user) {
-    // On successful login, save user and redirect
-    localStorage.setItem("loggedInUser", JSON.stringify(user));
-    // UPDATED: Changed the redirection to index.html
-    window.location.href = "index.html"; 
-  } else {
-    // On failed login, show the error message
+  try {
+    const response = await fetch('http://localhost:3000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ rollNo, email }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Login failed.');
+    }
+    
+    // On successful login, save the token and user info
+    localStorage.setItem("authToken", data.token);
+    localStorage.setItem("loggedInUser", JSON.stringify(data.user));
+    
+    // Redirect to the dashboard
+    window.location.href = "index.html";
+
+  } catch (error) {
+    errorBox.textContent = error.message;
     errorBox.classList.remove("hidden");
+    loginButton.disabled = false;
+    loginButton.textContent = 'Log in';
   }
 });
