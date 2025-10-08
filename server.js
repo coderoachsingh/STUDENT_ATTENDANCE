@@ -1,61 +1,81 @@
 // server.js
-import express from "express";
-import bodyParser from "body-parser";
-import cors from "cors";
-import dotenv from "dotenv";
-import AWS from "aws-sdk";
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const { DynamoDBDocumentClient, ScanCommand, PutCommand, QueryCommand } = require("@aws-sdk/lib-dynamodb");
 
-dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5500;
-
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static("public"));
+app.use(express.static("public")); 
 
-// ✅ Configure AWS DynamoDB
-AWS.config.update({
-  region: "ap-south-1", // Mumbai region (you can change)
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-});
+// DynamoDB client setup
+const client = new DynamoDBClient({ region: process.env.AWS_REGION });
+const ddbDocClient = DynamoDBDocumentClient.from(client);
 
-const dynamoDB = new AWS.DynamoDB.DocumentClient();
-const TABLE_NAME = "AttendanceRecords"; // create this in DynamoDB
+const STUDENTS_TABLE = process.env.STUDENTS_TABLE;
+const ATTENDANCE_TABLE = process.env.ATTENDANCE_TABLE;
 
-// 🧾 Save attendance
-app.post("/mark", async (req, res) => {
-  const { studentName, subject, date, status } = req.body;
-
-  const params = {
-    TableName: TABLE_NAME,
-    Item: {
-      studentName,
-      subject,
-      date,
-      status,
-      timestamp: new Date().toISOString(),
-    },
-  };
-
+// ✅ Get all students for a subject
+app.get("/students", async (req, res) => {
   try {
-    await dynamoDB.put(params).promise();
-    res.json({ success: true, message: "Attendance marked successfully!" });
+    const subject = req.query.subject;
+    const params = { TableName: STUDENTS_TABLE };
+    const data = await ddbDocClient.send(new ScanCommand(params));
+    const filtered = subject ? data.Items.filter(s => s.subject === subject) : data.Items;
+    res.json(filtered);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, error: err.message });
+    console.error("Error getting students:", err);
+    res.status(500).json({ error: "Failed to fetch students" });
   }
 });
 
-// 📊 Fetch attendance (optional)
-app.get("/attendance", async (req, res) => {
-  const params = { TableName: TABLE_NAME };
+// ✅ Save attendance for selected date
+app.post("/markAttendance", async (req, res) => {
   try {
-    const data = await dynamoDB.scan(params).promise();
+    const { subject, date, records } = req.body;
+
+    for (const record of records) {
+      const params = {
+        TableName: ATTENDANCE_TABLE,
+        Item: {
+          subject_date: `${subject}#${date}`,
+          rollNo: record.rollNo,
+          name: record.name,
+          status: record.status,
+          markedAt: new Date().toISOString()
+        },
+      };
+      await ddbDocClient.send(new PutCommand(params));
+    }
+
+    res.json({ message: "Attendance marked successfully!" });
+  } catch (err) {
+    console.error("Error marking attendance:", err);
+    res.status(500).json({ error: "Failed to mark attendance" });
+  }
+});
+
+// ✅ Get attendance for a subject/date
+app.get("/attendance", async (req, res) => {
+  try {
+    const { subject, date } = req.query;
+    const key = `${subject}#${date}`;
+    const params = {
+      TableName: ATTENDANCE_TABLE,
+      KeyConditionExpression: "subject_date = :sd",
+      ExpressionAttributeValues: { ":sd": key },
+    };
+    const data = await ddbDocClient.send(new QueryCommand(params));
     res.json(data.Items);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Error fetching attendance:", err);
+    res.status(500).json({ error: "Failed to fetch attendance" });
   }
 });
 
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+app.listen(process.env.PORT || 5500, () => {
+  console.log(`✅ Server running on port ${process.env.PORT || 5500}`);
+});

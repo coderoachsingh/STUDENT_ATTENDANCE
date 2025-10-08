@@ -1,3 +1,5 @@
+// public/teacher/Dashboard Logic.js
+
 document.addEventListener('DOMContentLoaded', () => {
   const subjectSelect = document.getElementById('subject');
   const dateSelect = document.getElementById('date');
@@ -6,14 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const studentTableBody = document.getElementById('studentTable');
   const submitAttendanceBtn = document.getElementById('submitAttendance');
 
-  // Your backend server's address.
-  // Make sure your server.js is running.
-  const API_BASE_URL = 'http://localhost:5500/api';
+  const API_BASE_URL = 'http://localhost:3000';
 
-  /**
-   * 1. LOAD STUDENTS LOGIC
-   * Fetches student attendance for a given subject and date from the backend.
-   */
   loadStudentsBtn.addEventListener('click', async () => {
     const subject = subjectSelect.value;
     const date = dateSelect.value;
@@ -23,13 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Show a loading message while fetching data
     studentTableContainer.classList.remove('hidden');
     studentTableBody.innerHTML = '<tr><td colspan="3">Loading students...</td></tr>';
 
     try {
-      // Call the backend API to get the student list
-      const response = await fetch(`${API_BASE_URL}/attendance?subject=${encodeURIComponent(subject)}&date=${date}`);
+      const response = await fetch(`${API_BASE_URL}/students`);
       
       if (!response.ok) {
         throw new Error(`The server responded with an error: ${response.status}`);
@@ -37,19 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const students = await response.json();
       
-      studentTableBody.innerHTML = ''; // Clear the table before adding new rows
+      studentTableBody.innerHTML = ''; 
 
-      // If no records exist, it might be the first time marking for this day.
       if (students.length === 0) {
-        alert('No attendance has been marked for this day yet. Loading all students for this subject.');
-        // You would typically fetch all students enrolled in the subject here.
-        // For now, we'll just show a message.
-        studentTableBody.innerHTML = '<tr><td colspan="3">You can now mark attendance for this new day.</td></tr>';
-        // You would need another API endpoint to fetch all students for a subject to populate this.
+        studentTableBody.innerHTML = '<tr><td colspan="3">No students found in the database.</td></tr>';
         return;
       }
 
-      // If students are found, create a table row for each one
       students.forEach(student => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -57,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <td>${student.name}</td>
           <td>
             <select class="status-select" data-rollno="${student.rollNo}">
-              <option value="Present" ${student.status === 'Present' ? 'selected' : ''}>Present</option>
-              <option value="Absent" ${student.status === 'Absent' ? 'selected' : ''}>Absent</option>
+              <option value="Present" selected>Present</option>
+              <option value="Absent">Absent</option>
             </select>
           </td>
         `;
@@ -72,10 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /**
-   * 2. SUBMIT ATTENDANCE LOGIC
-   * Gathers all the statuses from the table and sends them to the backend to be saved.
-   */
   submitAttendanceBtn.addEventListener('click', async () => {
     const subject = subjectSelect.value;
     const date = dateSelect.value;
@@ -90,15 +74,16 @@ document.addEventListener('DOMContentLoaded', () => {
     rows.forEach(row => {
         const statusSelect = row.querySelector('.status-select');
         if (statusSelect) {
-            const rollNo = statusSelect.dataset.rollno;
+            // ✅ FINAL FIX IS HERE: Convert the rollNo from a string to a number
+            const rollNo = parseInt(statusSelect.dataset.rollno, 10);
             const status = statusSelect.value;
-            const name = row.cells[1].textContent; // Get the student's name from the table
+            const name = row.cells[1].textContent;
             attendanceData.push({ rollNo, name, status });
         }
     });
 
     try {
-        const response = await fetch(`${API_BASE_URL}/attendance`, {
+        const response = await fetch(`${API_BASE_URL}/markAttendance`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -107,16 +92,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (!response.ok) {
-            throw new Error(`Server responded with an error: ${response.status}`);
+            const errorBody = await response.json();
+            throw new Error(errorBody.error || `Server responded with an error: ${response.status}`);
         }
 
         const result = await response.json();
-        alert(result.message); // Show success message from the server
+        alert(result.message);
 
     } catch (error) {
         console.error('Error submitting attendance:', error);
-        alert('Failed to submit attendance. Please try again.');
+        alert(`Failed to submit attendance. Reason: ${error.message}`);
     }
   });
 });
-
