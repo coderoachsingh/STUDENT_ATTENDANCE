@@ -1,6 +1,14 @@
 // public/teacher/Dashboard Logic.js
 
 document.addEventListener('DOMContentLoaded', () => {
+  // NEW: Security check to ensure a teacher is logged in.
+  const token = localStorage.getItem('teacherAuthToken');
+  if (!token) {
+    // If no token is found, redirect the user to the teacher login page.
+    window.location.href = 'login.html';
+    return; // Stop executing the rest of the script.
+  }
+
   const subjectSelect = document.getElementById('subject');
   const dateSelect = document.getElementById('date');
   const loadStudentsBtn = document.getElementById('loadStudents');
@@ -23,7 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
     studentTableBody.innerHTML = '<tr><td colspan="3">Loading students...</td></tr>';
 
     try {
-      const response = await fetch(`${API_BASE_URL}/students`);
+      // NEW: Add Authorization header to the fetch request.
+      const response = await fetch(`${API_BASE_URL}/students`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       
       if (!response.ok) {
         throw new Error(`The server responded with an error: ${response.status}`);
@@ -47,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <select class="status-select" data-rollno="${student.rollNo}">
               <option value="Present" selected>Present</option>
               <option value="Absent">Absent</option>
+              <option value="Cancelled">Cancelled</option>
             </select>
           </td>
         `;
@@ -55,8 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     } catch (error) {
       console.error('Error fetching student data:', error);
-      alert('Failed to load student data. Please make sure your backend server is running.');
-      studentTableBody.innerHTML = '<tr><td colspan="3">Could not load data. Is the server running?</td></tr>';
+      alert('Failed to load student data. Your session might be invalid. Please try logging in again.');
+      studentTableBody.innerHTML = '<tr><td colspan="3">Could not load data.</td></tr>';
     }
   });
 
@@ -74,8 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     rows.forEach(row => {
         const statusSelect = row.querySelector('.status-select');
         if (statusSelect) {
-            // ✅ FINAL FIX IS HERE: Convert the rollNo from a string to a number
-            const rollNo = statusSelect.dataset.rollno;
+            const rollNo = statusSelect.dataset.rollno; // Correctly a string
             const status = statusSelect.value;
             const name = row.cells[1].textContent;
             attendanceData.push({ rollNo, name, status });
@@ -83,10 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     try {
+        // NEW: Add Authorization header to the fetch request.
         const response = await fetch(`${API_BASE_URL}/markAttendance`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({ subject, date, records: attendanceData }),
         });

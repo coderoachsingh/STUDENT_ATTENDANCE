@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Login - Attendance Cloud</title>
+  <link rel="stylesheet" href="login-style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="login-container">
+    <div class="branding-panel">
+      <div class="branding-content">
+        <h1>Teacher Portal</h1>
+        <p>Manage and track student attendance seamlessly.</p>
+      </div>
+    </div>
+    <div class="form-panel">
+      <h2>Log in to Your Dashboard</h2>
+      <form id="loginForm" class="login-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required>
+        </div>
+        <div id="loginError" class="error-message hidden"></div>
+        <button type="submit" class="btn-primary">Log in</button>
+      </form>
+      <div class="demo-section">
+        <h3>Dummy Account</h3>
+        <ul>
+          <li><strong>Email:</strong> teacher@example.com</li>
+          <li><strong>Password:</strong> password123</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script src="login.js"></script>
+</body>
+</html>
