@@ -1,12 +1,10 @@
 // public/teacher/Dashboard Logic.js
 
 document.addEventListener('DOMContentLoaded', () => {
-  // NEW: Security check to ensure a teacher is logged in.
   const token = localStorage.getItem('teacherAuthToken');
   if (!token) {
-    // If no token is found, redirect the user to the teacher login page.
     window.location.href = 'login.html';
-    return; // Stop executing the rest of the script.
+    return;
   }
 
   const subjectSelect = document.getElementById('subject');
@@ -16,7 +14,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const studentTableBody = document.getElementById('studentTable');
   const submitAttendanceBtn = document.getElementById('submitAttendance');
 
-  const API_BASE_URL = 'http://localhost:3000';
+  const API_BASE_URL = 'http://attendance-portal-env.eba-yfcf6gga.ap-south-1.elasticbeanstalk.com/';
+
+  // --- NEW: Function to reset the dashboard state ---
+  function resetDashboard() {
+    studentTableBody.innerHTML = ''; // Clear the table
+    studentTableContainer.classList.add('hidden'); // Hide the table container
+    subjectSelect.selectedIndex = 0; // Reset subject dropdown
+    dateSelect.value = ''; // Clear the date field
+  }
 
   loadStudentsBtn.addEventListener('click', async () => {
     const subject = subjectSelect.value;
@@ -31,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
     studentTableBody.innerHTML = '<tr><td colspan="3">Loading students...</td></tr>';
 
     try {
-      // NEW: Add Authorization header to the fetch request.
       const response = await fetch(`${API_BASE_URL}/students`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -79,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const date = dateSelect.value;
     const rows = studentTableBody.querySelectorAll('tr');
     
-    if (!subject || !date || rows.length === 0) {
+    if (!subject || !date || rows.length === 0 || !rows[0].querySelector('.status-select')) {
         alert("Please load students before submitting.");
         return;
     }
@@ -88,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     rows.forEach(row => {
         const statusSelect = row.querySelector('.status-select');
         if (statusSelect) {
-            const rollNo = statusSelect.dataset.rollno; // Correctly a string
+            const rollNo = statusSelect.dataset.rollno;
             const status = statusSelect.value;
             const name = row.cells[1].textContent;
             attendanceData.push({ rollNo, name, status });
@@ -96,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     try {
-        // NEW: Add Authorization header to the fetch request.
         const response = await fetch(`${API_BASE_URL}/markAttendance`, {
             method: 'POST',
             headers: {
@@ -113,6 +117,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const result = await response.json();
         alert(result.message);
+        
+        // --- FIX: Call the reset function after a successful submission ---
+        resetDashboard();
 
     } catch (error) {
         console.error('Error submitting attendance:', error);

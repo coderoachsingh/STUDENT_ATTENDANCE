@@ -4,17 +4,13 @@ window.onload = async function() {
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
 
     // --- SECURITY CHECK ---
-    // If no token/user, redirect to login page.
     if (!token || !user) {
         window.location.href = 'login.html';
         return;
     }
 
     // --- DYNAMIC USER INFO ---
-    // Update all "Welcome, John Doe" text with the real user's name
     document.querySelectorAll('.welcome-text').forEach(el => el.textContent = `Welcome, ${user.name}`);
-    
-    // Update profile page placeholders if on that page
     if (document.getElementById('profile-content')) {
         document.querySelector('.profile-name-info h2').textContent = user.name;
         document.querySelector('.profile-name-info p').textContent = `Student ID: ${user.rollNo}`;
@@ -23,17 +19,16 @@ window.onload = async function() {
     // --- DATA FETCHING ---
     let attendanceData = [];
     try {
-        const response = await fetch('http://localhost:3000/my-attendance', {
+        const response = await fetch('http://attendance-portal-env.eba-yfcf6gga.ap-south-1.elasticbeanstalk.com/', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
 
         if (!response.ok) {
-            // If token is expired or invalid, server will send 403
             if (response.status === 403) {
                 alert('Your session has expired. Please log in again.');
-                logout(); // Call logout function
+                logout();
                 return;
             }
             throw new Error('Could not fetch attendance data.');
@@ -43,7 +38,6 @@ window.onload = async function() {
 
     } catch (error) {
         console.error("Fetch error:", error);
-        // Display an error in the UI
         if (document.getElementById('dashboard-content')) {
             document.getElementById('dashboard-content').innerHTML = `<h2>Error loading data. Please try again later.</h2>`;
         }
@@ -53,17 +47,13 @@ window.onload = async function() {
         return;
     }
 
-    // --- RENDER FUNCTIONS (no changes needed here) ---
+    // --- RENDER FUNCTIONS (no changes) ---
     function renderDashboardStats() {
-        let totalClasses = 0;
-        let totalAttended = 0;
-        let lowAttendanceCount = 0;
+        let totalClasses = 0, totalAttended = 0, lowAttendanceCount = 0;
         attendanceData.forEach(subject => {
             totalClasses += subject.total;
             totalAttended += subject.attended;
-            if (subject.total > 0 && (subject.attended / subject.total) * 100 < 75) {
-                lowAttendanceCount++;
-            }
+            if (subject.total > 0 && (subject.attended / subject.total) * 100 < 75) lowAttendanceCount++;
         });
         const overallPercentage = totalClasses > 0 ? (totalAttended / totalClasses) * 100 : 0;
         
@@ -96,33 +86,6 @@ window.onload = async function() {
         });
     }
 
-    function renderAttendanceChart() {
-        const chartCanvas = document.getElementById('attendanceChart');
-        if (!chartCanvas) return;
-        const ctx = chartCanvas.getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: attendanceData.map(s => s.name),
-                datasets: [{
-                    label: 'Attendance %',
-                    data: attendanceData.map(s => s.total > 0 ? (s.attended / s.total) * 100 : 0),
-                    backgroundColor: attendanceData.map(s => {
-                        const perc = s.total > 0 ? (s.attended / s.total) * 100 : 0;
-                        return perc < 75 ? '#dc3545' : (perc < 85 ? '#ffc107' : '#28a745');
-                    }),
-                    borderRadius: 4,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, max: 100, title: { display: true, text: 'Percentage (%)' } } }
-            }
-        });
-    }
-
     // --- LOGOUT FUNCTIONALITY ---
     function logout() {
         localStorage.removeItem('authToken');
@@ -137,7 +100,8 @@ window.onload = async function() {
     // --- PAGE-SPECIFIC INITIALIZATION ---
     if (document.getElementById('dashboard-content')) {
         renderDashboardStats();
-        renderAttendanceTable();
+        // FIX: Also render the table on the dashboard
+        renderAttendanceTable(); 
     }
     if (document.getElementById('attendance-content')) {
         renderAttendanceTable();

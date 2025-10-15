@@ -1,23 +1,22 @@
-// login.js
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const rollNo = document.getElementById("rollNo").value.trim().toUpperCase();
-  const email = document.getElementById("email").value.trim().toLowerCase();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
   const errorBox = document.getElementById("loginError");
   const loginButton = e.target.querySelector('button[type="submit"]');
-  
+
+  // --- Reset UI state ---
   errorBox.classList.add("hidden");
   loginButton.disabled = true;
   loginButton.textContent = 'Logging in...';
 
   try {
-    const response = await fetch('http://localhost:3000/login', {
+    // FIX: Changed URL to be absolute, pointing to your backend on port 3000
+    const response = await fetch('http://attendance-portal-env.eba-yfcf6gga.ap-south-1.elasticbeanstalk.com/', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ rollNo, email }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
     });
 
     const data = await response.json();
@@ -26,14 +25,14 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
       throw new Error(data.error || 'Login failed.');
     }
     
-    // On successful login, save the token and user info
-    localStorage.setItem("authToken", data.token);
-    localStorage.setItem("loggedInUser", JSON.stringify(data.user));
+    // On success, save the token to localStorage
+    localStorage.setItem("teacherAuthToken", data.token);
     
-    // Redirect to the dashboard
+    // Redirect to the dashboard page on success
     window.location.href = "index.html";
 
   } catch (error) {
+    // --- Handle errors ---
     errorBox.textContent = error.message;
     errorBox.classList.remove("hidden");
     loginButton.disabled = false;
