@@ -13,7 +13,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
   try {
     // FIX: Changed URL to be absolute, pointing to your backend on port 3000
-    const response = await fetch('http://attendance-portal-env.eba-yfcf6gga.ap-south-1.elasticbeanstalk.com/', {
+    const response = await fetch('https://student-attendance-gh4e.onrender.com', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),

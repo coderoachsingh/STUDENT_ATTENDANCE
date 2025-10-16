@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const studentTableBody = document.getElementById('studentTable');
   const submitAttendanceBtn = document.getElementById('submitAttendance');
 
-  const API_BASE_URL = 'http://attendance-portal-env.eba-yfcf6gga.ap-south-1.elasticbeanstalk.com/';
+  const API_BASE_URL = 'https://student-attendance-gh4e.onrender.com';
 
   // --- NEW: Function to reset the dashboard state ---
   function resetDashboard() {

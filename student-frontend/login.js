@@ -13,7 +13,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
   try {
     // FIX: Added the /login endpoint to the URL
-    const response = await fetch('http://attendance-portal-env.eba-yfcf6gga.ap-south-1.elasticbeanstalk.com/', {
+    const response = await fetch('https://student-attendance-gh4e.onrender.com', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

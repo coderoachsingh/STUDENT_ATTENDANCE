@@ -19,7 +19,7 @@ window.onload = async function() {
     // --- DATA FETCHING ---
     let attendanceData = [];
     try {
-        const response = await fetch('http://attendance-portal-env.eba-yfcf6gga.ap-south-1.elasticbeanstalk.com/', {
+        const response = await fetch('https://student-attendance-gh4e.onrender.com', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
