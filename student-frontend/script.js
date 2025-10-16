@@ -1,4 +1,4 @@
-// script.js
+// student-frontend/script.js
 window.onload = async function() {
     const token = localStorage.getItem('authToken');
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -14,12 +14,19 @@ window.onload = async function() {
     if (document.getElementById('profile-content')) {
         document.querySelector('.profile-name-info h2').textContent = user.name;
         document.querySelector('.profile-name-info p').textContent = `Student ID: ${user.rollNo}`;
+        // You can add more profile fields here if needed
     }
 
-    // --- DATA FETCHING ---
+    // --- DATA FETCHING (Only if on a page that needs attendance) ---
+    if (!document.getElementById('dashboard-content') && !document.getElementById('attendance-content')) {
+        // If we are on a page like profile.html, we don't need to fetch attendance
+        return; 
+    }
+
     let attendanceData = [];
     try {
-        const response = await fetch('https://student-attendance-gh4e.onrender.com', {
+        // FIX: Added the /my-attendance endpoint to the live Render URL
+        const response = await fetch('https://student-attendance-gh4e.onrender.com/my-attendance', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -47,13 +54,15 @@ window.onload = async function() {
         return;
     }
 
-    // --- RENDER FUNCTIONS (no changes) ---
+    // --- RENDER FUNCTIONS ---
     function renderDashboardStats() {
         let totalClasses = 0, totalAttended = 0, lowAttendanceCount = 0;
         attendanceData.forEach(subject => {
             totalClasses += subject.total;
             totalAttended += subject.attended;
-            if (subject.total > 0 && (subject.attended / subject.total) * 100 < 75) lowAttendanceCount++;
+            if (subject.total > 0 && (subject.attended / subject.total) * 100 < 75) {
+                lowAttendanceCount++;
+            }
         });
         const overallPercentage = totalClasses > 0 ? (totalAttended / totalClasses) * 100 : 0;
         
@@ -72,7 +81,10 @@ window.onload = async function() {
         }
         attendanceData.forEach((subject, index) => {
             const percentage = subject.total > 0 ? (subject.attended / subject.total) * 100 : 0;
-            let percentageClass = percentage < 75 ? 'attendance-danger' : (percentage < 85 ? 'attendance-warning' : 'attendance-good');
+            let percentageClass = 'attendance-good';
+            if (percentage < 75) percentageClass = 'attendance-danger';
+            else if (percentage < 85) percentageClass = 'attendance-warning';
+            
             const row = `
                 <tr>
                     <td>${index + 1}</td>
@@ -100,8 +112,7 @@ window.onload = async function() {
     // --- PAGE-SPECIFIC INITIALIZATION ---
     if (document.getElementById('dashboard-content')) {
         renderDashboardStats();
-        // FIX: Also render the table on the dashboard
-        renderAttendanceTable(); 
+        renderAttendanceTable(); // Render table on dashboard too
     }
     if (document.getElementById('attendance-content')) {
         renderAttendanceTable();

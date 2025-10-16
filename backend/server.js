@@ -9,28 +9,20 @@ const { DynamoDBDocumentClient, ScanCommand, PutCommand, GetCommand } = require(
 const app = express();
 
 // =================================================================
-// CORS CONFIGURATION FOR HEROKU + VERCEL DEPLOYMENT
+// CORS CONFIGURATION
 // =================================================================
-// ⚠️ IMPORTANT: Replace these placeholder URLs with your actual Vercel URLs.
-const studentPortalUrl = 'https://studentattendance-seven.vercel.app/login.html'; 
-const teacherPortalUrl = 'https://student-attendance-blue.vercel.app/login.html';
+// FIX: Removed the specific page paths like "/login.html" from the URLs.
+const studentPortalUrl = 'https://studentattendance-seven.vercel.app'; 
+const teacherPortalUrl = 'https://student-attendance-blue.vercel.app';
 
 const corsOptions = {
-  // This is your "whitelist" - only requests from these Vercel URLs will be allowed.
   origin: [studentPortalUrl, teacherPortalUrl]
 };
 
-app.use(cors(corsOptions)); // Use the specific CORS options
+app.use(cors(corsOptions));
 app.use(express.json());
 
-// DynamoDB client setup
-const client = new DynamoDBClient({ region: process.env.AWS_REGION });
-const ddbDocClient = DynamoDBDocumentClient.from(client);
-
-const STUDENTS_TABLE = process.env.STUDENTS_TABLE;
-const ATTENDANCE_TABLE = process.env.ATTENDANCE_TABLE;
-const JWT_SECRET = process.env.JWT_SECRET;
-
+// ... (rest of the server.js file is unchanged) ...
 
 // =================================================================
 // AUTHENTICATION MIDDLEWARE & ROUTES
@@ -48,10 +40,19 @@ function verifyToken(req, res, next) {
   });
 }
 
+const DUMMY_TEACHER_EMAIL = "teacher@example.com";
+const DUMMY_TEACHER_PASSWORD = "password123";
+
+// DynamoDB client setup
+const client = new DynamoDBClient({ region: process.env.AWS_REGION });
+const ddbDocClient = DynamoDBDocumentClient.from(client);
+
+const STUDENTS_TABLE = process.env.STUDENTS_TABLE;
+const ATTENDANCE_TABLE = process.env.ATTENDANCE_TABLE;
+const JWT_SECRET = process.env.JWT_SECRET;
+
 app.post("/teacher-login", async (req, res) => {
   const { email, password } = req.body;
-  const DUMMY_TEACHER_EMAIL = "teacher@example.com";
-  const DUMMY_TEACHER_PASSWORD = "password123";
 
   if (email === DUMMY_TEACHER_EMAIL && password === DUMMY_TEACHER_PASSWORD) {
     const token = jwt.sign({ role: 'teacher', email: email }, JWT_SECRET, { expiresIn: "8h" });
@@ -81,7 +82,6 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ error: "Server error during login." });
   }
 });
-
 
 // =================================================================
 // PROTECTED TEACHER DASHBOARD ROUTES
@@ -120,7 +120,6 @@ app.post("/markAttendance", verifyToken, async (req, res) => {
     res.status(500).json({ error: "Failed to mark attendance" });
   }
 });
-
 
 // =================================================================
 // PROTECTED STUDENT PORTAL ROUTE
@@ -168,11 +167,10 @@ app.get("/my-attendance", verifyToken, async (req, res) => {
   }
 });
 
-
 // =================================================================
 // START SERVER
 // =================================================================
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`✅ Server running on port ${process.env.PORT || 3000}`);
-}); 
+});

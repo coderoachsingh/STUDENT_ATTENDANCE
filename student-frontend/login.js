@@ -1,25 +1,34 @@
-// login.js
+// student-frontend/login.js
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const rollNo = document.getElementById("rollNo").value.trim().toUpperCase();
-  const email = document.getElementById("email").value.trim().toLowerCase();
+  const rollNoInput = document.getElementById("rollNo");
+  const emailInput = document.getElementById("email");
   const errorBox = document.getElementById("loginError");
   const loginButton = e.target.querySelector('button[type="submit"]');
+
+  const rollNo = rollNoInput.value.trim().toUpperCase();
+  const email = emailInput.value.trim().toLowerCase();
   
   errorBox.classList.add("hidden");
   loginButton.disabled = true;
   loginButton.textContent = 'Logging in...';
 
   try {
-    // FIX: Added the /login endpoint to the URL
-    const response = await fetch('https://student-attendance-gh4e.onrender.com', {
+    // FIX: Added the /login endpoint to the live Render URL
+    const response = await fetch('https://student-attendance-gh4e.onrender.com/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ rollNo, email }),
     });
+
+    // Check if the response is valid JSON before parsing
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      throw new Error("Received an invalid response from the server.");
+    }
 
     const data = await response.json();
 
