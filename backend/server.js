@@ -12,8 +12,8 @@ const app = express();
 // CORS CONFIGURATION FOR HEROKU + VERCEL DEPLOYMENT
 // =================================================================
 // ⚠️ IMPORTANT: Replace these placeholder URLs with your actual Vercel URLs.
-const studentPortalUrl = 'https://arman-student-portal.vercel.app'; 
-const teacherPortalUrl = 'https://arman-teacher-portal.vercel.app';
+const studentPortalUrl = 'https://studentattendance-seven.vercel.app/login.html'; 
+const teacherPortalUrl = 'https://student-attendance-blue.vercel.app/login.html';
 
 const corsOptions = {
   // This is your "whitelist" - only requests from these Vercel URLs will be allowed.
