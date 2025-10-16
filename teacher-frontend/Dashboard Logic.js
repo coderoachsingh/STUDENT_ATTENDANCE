@@ -1,7 +1,7 @@
-// public/teacher/Dashboard Logic.js
-
+// teacher-frontend/Dashboard Logic.js
 document.addEventListener('DOMContentLoaded', () => {
   const token = localStorage.getItem('teacherAuthToken');
+  // Security check: if no token, redirect to login
   if (!token) {
     window.location.href = 'login.html';
     return;
@@ -14,16 +14,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const studentTableBody = document.getElementById('studentTable');
   const submitAttendanceBtn = document.getElementById('submitAttendance');
 
+  // Base URL for the live Render backend
   const API_BASE_URL = 'https://student-attendance-gh4e.onrender.com';
 
-  // --- NEW: Function to reset the dashboard state ---
+  // Function to reset the dashboard state after submission
   function resetDashboard() {
-    studentTableBody.innerHTML = ''; // Clear the table
-    studentTableContainer.classList.add('hidden'); // Hide the table container
-    subjectSelect.selectedIndex = 0; // Reset subject dropdown
-    dateSelect.value = ''; // Clear the date field
+    studentTableBody.innerHTML = ''; 
+    studentTableContainer.classList.add('hidden');
+    subjectSelect.selectedIndex = 0;
+    dateSelect.value = '';
   }
 
+  // Event listener for loading the student list
   loadStudentsBtn.addEventListener('click', async () => {
     const subject = subjectSelect.value;
     const date = dateSelect.value;
@@ -38,9 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       const response = await fetch(`${API_BASE_URL}/students`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` }
       });
       
       if (!response.ok) {
@@ -48,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const students = await response.json();
-      
       studentTableBody.innerHTML = ''; 
 
       if (students.length === 0) {
@@ -79,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Event listener for submitting the attendance
   submitAttendanceBtn.addEventListener('click', async () => {
     const subject = subjectSelect.value;
     const date = dateSelect.value;
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await response.json();
         alert(result.message);
         
-        // --- FIX: Call the reset function after a successful submission ---
+        // Reset the UI for the next entry
         resetDashboard();
 
     } catch (error) {

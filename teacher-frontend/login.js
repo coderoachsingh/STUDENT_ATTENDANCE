@@ -1,3 +1,4 @@
+// teacher-frontend/login.js
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -12,8 +13,8 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   loginButton.textContent = 'Logging in...';
 
   try {
-    // FIX: Changed URL to be absolute, pointing to your backend on port 3000
-    const response = await fetch('https://student-attendance-gh4e.onrender.com', {
+    // Correct URL for the live Render backend teacher login endpoint
+    const response = await fetch('https://student-attendance-gh4e.onrender.com/teacher-login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -25,10 +26,10 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
       throw new Error(data.error || 'Login failed.');
     }
     
-    // On success, save the token to localStorage
+    // On success, save the token to localStorage under a unique key for the teacher
     localStorage.setItem("teacherAuthToken", data.token);
     
-    // Redirect to the dashboard page on success
+    // Redirect to the teacher dashboard page on success
     window.location.href = "index.html";
 
   } catch (error) {
